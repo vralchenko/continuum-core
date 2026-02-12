@@ -24,7 +24,10 @@ body {
     overflow-x: hidden;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     font-family: var(--font-heading);
     font-weight: 400;
 }
@@ -129,6 +132,7 @@ nav {
     margin-bottom: 24px;
     background: linear-gradient(to right, #ffffff, #d4af37);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -313,6 +317,7 @@ footer {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -324,13 +329,305 @@ footer {
     .hero h1 {
         font-size: 2.5rem;
     }
-    
+
     .nav-links {
-        display: none; /* Simple hiding for mvp */
+        display: none;
+        /* Simple hiding for mvp */
     }
-    
+
     .founder-names {
         flex-direction: column;
         gap: 32px;
     }
+}
+
+/* Tools Specific Styles */
+.tools-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    min-height: calc(100vh - 100px);
+    margin-top: 100px;
+}
+
+.tools-sidebar {
+    background: rgba(255, 255, 255, 0.02);
+    border-right: 1px solid var(--glass-border);
+    padding: 40px 24px;
+    position: sticky;
+    top: 100px;
+    height: calc(100vh - 100px);
+}
+
+.tools-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.tools-nav-item {
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    color: rgba(224, 230, 237, 0.6);
+}
+
+.tools-nav-item:hover {
+    background: var(--glass-bg);
+    color: var(--accent-gold);
+}
+
+.tools-nav-item.active {
+    background: var(--glass-bg);
+    color: var(--accent-gold);
+    border-left: 3px solid var(--accent-gold);
+}
+
+.tools-content {
+    padding: 60px 80px;
+    max-width: 1000px;
+}
+
+.tool-panel {
+    display: none;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.tool-panel.active {
+    display: block;
+}
+
+.tool-section {
+    margin-bottom: 48px;
+}
+
+.tool-section h3 {
+    color: var(--accent-gold);
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: rgba(224, 230, 237, 0.8);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    padding: 12px 16px;
+    color: var(--text-color);
+    border-radius: 4px;
+    font-family: var(--font-body);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+}
+
+/* Checklist Styles */
+.checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    margin-bottom: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.checklist-item:hover {
+    border-color: rgba(212, 175, 55, 0.3);
+}
+
+.checklist-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--accent-gold);
+}
+
+/* Step Timeline */
+.step-container {
+    position: relative;
+    padding-left: 40px;
+}
+
+.step-container::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--glass-border);
+}
+
+.step-card {
+    position: relative;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    padding: 24px;
+    border-radius: 4px;
+    margin-bottom: 32px;
+}
+
+.step-card::after {
+    content: '';
+    position: absolute;
+    left: -35px;
+    top: 24px;
+    width: 12px;
+    height: 12px;
+    background: var(--accent-gold);
+    border-radius: 50%;
+}
+
+.step-tag {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Wizards */
+.wizard-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.wizard-step {
+    flex: 1;
+    text-align: center;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--glass-border);
+    font-size: 0.8rem;
+    color: rgba(224, 230, 237, 0.4);
+}
+
+.wizard-step.active {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 992px) {
+    .tools-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .tools-sidebar {
+        position: static;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--glass-border);
+    }
+
+    .tools-nav {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+
+    .tools-nav-item {
+        white-space: nowrap;
+    }
+
+    .tools-content {
+        padding: 40px 24px;
+    }
+}
+
+/* Language Switcher */
+.lang-switcher {
+    display: flex;
+    gap: 8px;
+    margin-right: 20px;
+}
+
+.lang-btn {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    border: 1px solid var(--glass-border);
+    background: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.lang-btn:hover,
+.lang-btn.active {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+}
+
+/* Save Indicator */
+.save-status {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--accent-gold);
+    color: var(--bg-color);
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transform: translateY(100px);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 2000;
+}
+
+.save-status.show {
+    transform: translateY(0);
+}
+
+/* Multi-step Dynamics */
+.wizard-content-step {
+    display: none;
+}
+
+.wizard-content-step.active {
+    display: block;
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Checkbox dynamism */
+.checklist-item.checked {
+    border-color: var(--accent-gold);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.checklist-item.checked span {
+    text-decoration: line-through;
+    opacity: 0.5;
 }
