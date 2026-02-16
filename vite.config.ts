@@ -22,16 +22,18 @@ export default defineConfig({
                 products: resolve(__dirname, 'products.html'),
                 team: resolve(__dirname, 'team.html'),
                 tools_page: resolve(__dirname, 'tools.html'),
-                'asset-overview': resolve(__dirname, './tools/asset-overview.html'),
-                'bereavement-support': resolve(__dirname, './tools/bereavement-support.html'),
-                'death-checklist': resolve(__dirname, './tools/death-checklist.html'),
-                'executor': resolve(__dirname, './tools/executor.html'),
-                'legal-docs': resolve(__dirname, './tools/legal-docs.html'),
-                'sidebar': resolve(__dirname, './tools/sidebar.html'),
-                'templates': resolve(__dirname, './tools/templates.html'),
-                'will-builder': resolve(__dirname, './tools/will-builder.html'),
-                'header': resolve(__dirname, './components/header.html'),
-                'footer': resolve(__dirname, './components/footer.html'),
+                
+                'asset-overview': resolve(__dirname, 'components/tools/asset-overview.html'),
+                'bereavement-support': resolve(__dirname, 'components/tools/bereavement-support.html'),
+                'death-checklist': resolve(__dirname, 'components/tools/death-checklist.html'),
+                'executor': resolve(__dirname, 'components/tools/executor.html'),
+                'legal-docs': resolve(__dirname, 'components/tools/legal-docs.html'),
+                'sidebar': resolve(__dirname, 'components/tools/sidebar.html'),
+                'templates': resolve(__dirname, 'components/tools/templates.html'),
+                'will-builder': resolve(__dirname, 'components/tools/will-builder.html'),
+                
+                'header': resolve(__dirname, 'components/header.html'),
+                'footer': resolve(__dirname, 'components/footer.html'),
             }
         }
     }
