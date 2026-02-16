@@ -512,45 +512,73 @@ header.menu-open .mobile-toggle .bar:nth-child(3) {
 
 .founder {
     text-align: center;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 40px 30px;
+    border-radius: 24px;
+    transition: var(--transition);
+    backdrop-filter: blur(5px);
+}
+
+.founder:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(251, 191, 36, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .founder h3 {
-    font-size: 1.5rem;
-    margin-bottom: 8px;
+    font-size: 1.4rem;
+    margin-bottom: 6px;
+    color: #fff;
 }
 
 .founder span {
     color: var(--accent-gold);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 24px;
+    opacity: 0.8;
 }
 
 .founder-social {
-    margin-top: 16px;
     display: flex;
     justify-content: center;
-    gap: 12px;
+    gap: 15px;
 }
 
 .social-link {
-    color: var(--text-muted);
-    transition: var(--transition);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    color: var(--accent-gold);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(251, 191, 36, 0.05);
 }
 
 .social-link:hover {
-    color: var(--accent-gold);
-    transform: translateY(-2px);
+    background: var(--accent-gold);
+    color: #000;
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
 }
 
 .founder-img {
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
     object-fit: cover;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    border: 1px solid var(--accent-gold);
-    box-shadow: var(--card-shadow);
+    border-radius: 50%;
+    margin-bottom: 24px;
+    border: 2px solid var(--accent-gold);
+    padding: 5px;
+    background: linear-gradient(45deg, var(--accent-gold), transparent);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     transition: var(--transition);
 }
 
