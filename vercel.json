@@ -1,0 +1,9 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/tools/:path*",
+      "destination": "/tools/:path*.html"
+    }
+  ]
+}
