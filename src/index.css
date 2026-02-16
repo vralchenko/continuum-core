@@ -526,6 +526,23 @@ header.menu-open .mobile-toggle .bar:nth-child(3) {
     letter-spacing: 1px;
 }
 
+.founder-social {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.social-link {
+    color: var(--text-muted);
+    transition: var(--transition);
+}
+
+.social-link:hover {
+    color: var(--accent-gold);
+    transform: translateY(-2px);
+}
+
 .founder-img {
     width: 200px;
     height: 200px;
