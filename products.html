@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | Continuum Ecosystem</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="sub-page">
+
+    <div data-include="components/header.html"></div>
+
+    <main>
+        <section id="products" class="products section-padding">
+            <img src="assets/images/products-bg.png" alt="Abstract Geometry" class="products-bg">
+            <div class="container">
+                <div class="heading-block" style="text-align: center; margin-bottom: 64px;">
+                    <h2 data-i18n="eco_title">Our Ecosystem</h2>
+                    <p data-i18n="eco_subtitle">A complete digital platform for every stage.</p>
+                </div>
+
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-card-header">
+                            <span class="card-number">01</span>
+                            <h3 data-i18n="p1_title">Be Ready</h3>
+                            <div class="product-tag" data-i18n="p1_tag">Preparation & Structure</div>
+                        </div>
+                        <p data-i18n="p1_desc">Organize essential documents and decisions early. Wills, living wills,
+                            powers
+                            of attorney—everything securely stored so that in an emergency, nothing needs to be
+                            interpreted
+                            under pressure.</p>
+                        <a href="tools.html" class="btn" style="font-size: 0.7rem; padding: 10px 20px;"
+                            data-i18n="p1_btn">Launch Tools</a>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-header">
+                            <span class="card-number">02</span>
+                            <h3 data-i18n="p2_title">Leave Behind</h3>
+                            <div class="product-tag" data-i18n="p2_tag">Conscious Legacy</div>
+                        </div>
+                        <p data-i18n="p2_desc">Created by you, for them. Deciding what remains: your voice, personal
+                            messages, values, and digital presence. It's not just about preserving, but actively
+                            choosing
+                            what to leave behind.</p>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-header">
+                            <span class="card-number">03</span>
+                            <h3 data-i18n="p3_title">Be Honored</h3>
+                            <div class="product-tag" data-i18n="p3_tag">Dignified Remembrance</div>
+                        </div>
+                        <p data-i18n="p3_desc">Empathetic guidance for the grieving process. We provide tools and
+                            resources
+                            to support loved ones through bereavement...</p>
+                        <a href="tools.html?tool=bereavement-support" class="btn"
+                            style="font-size: 0.7rem; padding: 10px 20px;" data-i18n="nav_bereavement">Bereavement
+                            Support</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tech-stack section-padding">
+            <div class="container">
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <h4 data-i18n="tech_1">Secure Cloud Storage</h4>
+                        <p data-i18n="tech_1_sub">Privacy & Data Protection</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4 data-i18n="tech_2">AI-Powered Content</h4>
+                        <p data-i18n="tech_2_sub">Voice, Text & Personalization</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4 data-i18n="tech_3">Immersive Web</h4>
+                        <p data-i18n="tech_3_sub">3D Environments & Experience</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div data-include="components/footer.html"></div>
+
+    <script type="module" src="app.ts"></script>
+</body>
+
+</html>

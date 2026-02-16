@@ -16,24 +16,27 @@
 <body class="tools-page">
     <div data-include="components/header.html"></div>
 
-    <div class="tools-layout">
-        <div data-include="components/tools/sidebar.html"></div>
+    <main>
+        <div class="tools-layout">
+            <div data-include="components/tools/sidebar.html"></div>
 
-        <main class="tools-content">
-            <div data-include="components/tools/asset-overview.html"></div>
-            <div data-include="components/tools/legal-docs.html"></div>
-            <div data-include="components/tools/death-checklist.html"></div>
-            <div data-include="components/tools/executor.html"></div>
-            <div data-include="components/tools/will-builder.html"></div>
-            <div data-include="components/tools/templates.html"></div>
-        </main>
-    </div>
+            <div class="tools-content">
+                <div data-include="components/tools/asset-overview.html"></div>
+                <div data-include="components/tools/legal-docs.html"></div>
+                <div data-include="components/tools/death-checklist.html"></div>
+                <div data-include="components/tools/executor.html"></div>
+                <div data-include="components/tools/will-builder.html"></div>
+                <div data-include="components/tools/templates.html"></div>
+                <div data-include="components/tools/bereavement-support.html"></div>
+            </div>
+        </div>
+    </main>
 
     <div data-include="components/footer.html"></div>
 
     <div id="save-msg" class="save-status">Data saved locally.</div>
 
-    <script src="app.js"></script>
+    <script type="module" src="app.ts"></script>
 </body>
 
 </html>
