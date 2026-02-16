@@ -2,42 +2,19 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Continuum | The Future of Legacy</title>
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
         rel="stylesheet">
-
-    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
-    <div data-include="components/header.html"></div>
-
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <img src="assets/images/hero-bg.png" alt="Abstract Lines" class="hero-bg">
-            <div class="container">
-                <div class="hero-content">
-                    <h1 data-i18n="hero_h1">Innovation is not just about Growth. It's about Life.</h1>
-                    <p data-i18n="hero_p">We are redefining how we handle the most certain part of our existence. From
-                        preparation and structure to conscious legacy and dignified remembrance.</p>
-                    <a href="products.html" class="btn" data-i18n="hero_btn">Explore the Ecosystem</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <div data-include="components/footer.html"></div>
-
-    <script type="module" src="app.ts"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
 </body>
 
 </html>

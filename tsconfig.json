@@ -13,10 +13,11 @@
         "noEmit": true,
         "allowImportingTsExtensions": true,
         "resolveJsonModule": true,
-        "isolatedModules": true
+        "isolatedModules": true,
+        "jsx": "react-jsx"
     },
     "include": [
-        "./**/*.ts",
+        "src",
         "vite.config.ts"
     ],
     "exclude": [
