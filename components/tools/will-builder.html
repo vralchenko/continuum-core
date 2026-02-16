@@ -1,0 +1,100 @@
+<div id="will-builder" class="tool-panel">
+    <div class="tool-header" style="margin-bottom: 40px;">
+        <span class="step-tag" data-i18n="tag_will">Will Builder</span>
+        <h2 data-i18n="title_will">Will Structure Builder</h2>
+        <p style="opacity: 0.7; margin-top: 16px;" data-i18n="desc_will">Outline your wishes for your final
+            will. Remember: In many jurisdictions, a valid will must be handwritten.</p>
+    </div>
+
+    <div class="wizard-steps">
+        <div class="wizard-step active" onclick="gotoStep('will', 1)" data-i18n="step_1">01. Creator</div>
+        <div class="wizard-step" onclick="gotoStep('will', 2)" data-i18n="step_2">02. Heirs</div>
+        <div class="wizard-step" onclick="gotoStep('will', 3)" data-i18n="step_3">03. Legacies</div>
+        <div class="wizard-step" onclick="gotoStep('will', 4)" data-i18n="step_4">04. Form</div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div id="will-step-1" class="wizard-content-step active">
+        <div class="tool-section">
+            <h3 data-i18n="subtitle_testator">5.1 Testator Information</h3>
+            <div class="form-group">
+                <label data-i18n="label_fullname">Full Name</label>
+                <input type="text" data-store="will_name" placeholder="...">
+            </div>
+            <div class="form-group">
+                <label data-i18n="label_origin">Place of Origin / Nationality</label>
+                <input type="text" data-store="will_origin" placeholder="...">
+            </div>
+        </div>
+        <div style="text-align: right;">
+            <button class="btn" style="background: var(--accent-gold); color: var(--bg-color);"
+                onclick="gotoStep('will', 2)">Next Step</button>
+        </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="will-step-2" class="wizard-content-step">
+        <div class="tool-section">
+            <h3 data-i18n="subtitle_heirs">5.2 Heirs & Allocation</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="form-group"><label data-i18n="label_spouse_quota">Spouse / Partner Share
+                        (%)</label><input type="number" data-store="will_spouse_q" placeholder="50"></div>
+                <div class="form-group"><label data-i18n="label_children_quota">Children Share
+                        (%)</label><input type="number" data-store="will_children_q" placeholder="50"></div>
+            </div>
+            <div class="form-group">
+                <label data-i18n="label_other_heirs">Other Heirs / Institutions</label>
+                <textarea data-store="will_others" placeholder="..."
+                    style="width: 100%; min-height: 80px; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);"></textarea>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+            <button class="btn" onclick="gotoStep('will', 1)">Back</button>
+            <button class="btn" style="background: var(--accent-gold); color: var(--bg-color);"
+                onclick="gotoStep('will', 3)">Next Step</button>
+        </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div id="will-step-3" class="wizard-content-step">
+        <div class="tool-section">
+            <h3 data-i18n="subtitle_legacies">5.3 Specific Legacies</h3>
+            <div class="form-group">
+                <label data-i18n="label_legacy_desc">Specific items or amounts to be left to
+                    individuals</label>
+                <textarea data-store="will_legacies" placeholder="e.g. My watch to my nephew Alex..."
+                    style="width: 100%; min-height: 120px; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);"></textarea>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+            <button class="btn" onclick="gotoStep('will', 2)">Back</button>
+            <button class="btn" style="background: var(--accent-gold); color: var(--bg-color);"
+                onclick="gotoStep('will', 4)">Next Step</button>
+        </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div id="will-step-4" class="wizard-content-step">
+        <div class="tool-section">
+            <h3 data-i18n="subtitle_will_finish">5.4 Formality Checklist</h3>
+            <div class="checklist-item" onclick="toggleCheck(this, 'will_handwritten')">
+                <input type="checkbox" data-persistent="will_handwritten" style="display:none">
+                <span data-i18n="check_handwritten">I understand it must be handwritten</span>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this, 'will_dated')">
+                <input type="checkbox" data-persistent="will_dated" style="display:none">
+                <span data-i18n="check_dated">I remember to date and sign</span>
+            </div>
+            <div
+                style="margin-top: 20px; padding: 20px; background: rgba(212, 175, 55, 0.1); border-radius: 12px; border-left: 4px solid var(--accent-gold);">
+                <p style="font-style: italic; font-size: 0.9rem;">"Your outline is ready. Please use this as
+                    a reference to write your final will by hand on physical paper."</p>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+            <button class="btn" onclick="gotoStep('will', 3)">Back</button>
+            <button class="btn" style="background: var(--accent-gold); color: var(--bg-color);"
+                onclick="saveAll()">Complete & Save</button>
+        </div>
+    </div>
+</div>

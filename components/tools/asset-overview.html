@@ -1,0 +1,73 @@
+<div id="asset-overview" class="tool-panel active">
+    <div class="tool-header" style="margin-bottom: 40px;">
+        <span class="step-tag" data-i18n="tag_assets">Vermögensübersicht</span>
+        <h2 data-i18n="title_assets">Asset Overview Wizard</h2>
+        <p style="opacity: 0.7; margin-top: 16px;" data-i18n="desc_assets">"To get an overview of your
+            assets and thus the potential estate, first list your active assets and then the liabilities."
+        </p>
+    </div>
+    <div class="wizard-steps">
+        <div class="wizard-step active" onclick="gotoStep('asset', 1)" data-i18n="step_asset_1">01. Personal
+        </div>
+        <div class="wizard-step" onclick="gotoStep('asset', 2)" data-i18n="step_asset_2">02. Assets</div>
+        <div class="wizard-step" onclick="gotoStep('asset', 3)" data-i18n="step_asset_3">03. Liabilities
+        </div>
+        <div class="wizard-step" onclick="gotoStep('asset', 4)" data-i18n="step_asset_4">04. Notes</div>
+    </div>
+    <div id="asset-step-1" class="wizard-content-step active">
+        <div class="tool-section">
+            <h3 data-i18n="subtitle_personal">1.1 Personal Property (Eigengut)</h3>
+            <div class="form-group">
+                <label data-i18n="label_brought">Assets brought into the marriage</label>
+                <input type="text" data-store="asset_brought" placeholder="...">
+            </div>
+        </div>
+        <div style="text-align: right;"><button class="btn" onclick="gotoStep('asset', 2)">Next
+                Step</button></div>
+    </div>
+    <div id="asset-step-2" class="wizard-content-step">
+        <div class="tool-section">
+            <h3 data-i18n="subtitle_assets">1.3 Assets (Vermögenswerte)</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="form-group"><label data-i18n="label_bank">Bank & Savings</label><input type="text"
+                        data-store="asset_bank"></div>
+                <div class="form-group"><label data-i18n="label_securities">Securities</label><input type="text"
+                        data-store="asset_securities"></div>
+                <div class="form-group"><label data-i18n="label_bvg">Pension Fund</label><input type="text"
+                        data-store="asset_bvg"></div>
+                <div class="form-group"><label data-i18n="label_insurance">Insurance</label><input type="text"
+                        data-store="asset_insurance"></div>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between;"><button class="btn"
+                onclick="gotoStep('asset', 1)">Back</button><button class="btn"
+                onclick="gotoStep('asset', 3)">Next</button></div>
+    </div>
+    <div id="asset-step-3" class="wizard-content-step">
+        <div class="tool-section">
+            <h3 data-i18n="subtitle_liabilities">1.4 Liabilities</h3>
+            <div class="form-group"><label data-i18n="label_mortgages">Mortgages</label><input type="text"
+                    data-store="asset_mortgages"></div>
+            <div class="form-group"><label data-i18n="label_debts">Other Debts</label><input type="text"
+                    data-store="asset_debts"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between;"><button class="btn"
+                onclick="gotoStep('asset', 2)">Back</button><button class="btn"
+                onclick="gotoStep('asset', 4)">Next</button></div>
+    </div>
+    <div id="asset-step-4" class="wizard-content-step">
+        <div class="tool-section">
+            <h3 data-i18n="subtitle_notes">1.5 Notes</h3>
+            <div class="checklist-item" onclick="toggleCheck(this, 'asset_digital')"><input type="checkbox"
+                    data-persistent="asset_digital" style="display:none"><span data-i18n="check_digital">Digital
+                    legacy</span></div>
+            <div class="checklist-item" onclick="toggleCheck(this, 'asset_funeral')"><input type="checkbox"
+                    data-persistent="asset_funeral" style="display:none"><span data-i18n="check_funeral">Funeral
+                    wishes</span></div>
+        </div>
+        <div style="display: flex; justify-content: space-between;"><button class="btn"
+                onclick="gotoStep('asset', 3)">Back</button><button class="btn"
+                style="background: var(--accent-gold); color: var(--bg-color);" onclick="saveAll()">Complete
+                & Save</button></div>
+    </div>
+</div>
