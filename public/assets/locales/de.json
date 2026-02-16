@@ -109,5 +109,11 @@
     "card_template_gift": "Schenkungsvertrag",
     "card_template_advance": "Vorsorgeauftrag",
     "btn_request": "Vorlage anfordern",
-    "save_msg": "Daten lokal gespeichert."
+    "save_msg": "Daten lokal gespeichert.",
+    "bio_inna": "Dr. Inna Praxmarer ist eine visionäre Seelsorgerin aus der Schweiz und Alumna der HSLU. Bei Continuum schlägt sie die Brücke zwischen emotionaler Unterstützung und digitalem Erbe. Mit einem tiefen Fokus auf menschenzentrierte Planung sorgt Inna dafür, dass der Weg des Gedenkens mit Empathie, Würde und bewusster Fürsorge gestaltet wird.",
+    "role_inna": "Mitbegründerin & Seelsorgerin",
+    "bio_viktor": "Viktor Ralchenko ist ein Senior Software Architekt und Mitbegründer von Continuum mit über 20 Jahren Erfahrung im Aufbau von groß angelegten Unternehmenssystemen. Als Spezialist für .NET, Cloud-Architekturen und KI-Integration leitet er die technische Vision der Plattform. In der Schweiz ansässig, widmet sich Viktor der Entwicklung robuster, leistungsstarker digitaler Lösungen, die die Lücke zwischen Technologie und menschlichen Bedürfnissen schließen.",
+    "role_viktor": "Mitbegründer & CTO",
+    "bio_olga": "Olga Sushchinskaya ist eine erfahrene Finanzexpertin und Mitbegründerin von Continuum mit umfangreicher Erfahrung als COO im globalen Banken- und Wertpapiergeschäft. Als EMBA-Absolventin der Stockholm School of Economics bringt sie hochrangige operative Expertise und strategisches Management in die Plattform ein. In der Schweiz ansässig, leitet Olga die operative Exzellenz und Geschäftsstrategie des Ökosystems.",
+    "role_olga": "Mitbegründerin & COO"
 }
