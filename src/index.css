@@ -280,6 +280,39 @@ nav {
     color: var(--accent-gold);
 }
 
+.nav-container {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.mobile-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.mobile-toggle .bar {
+    width: 28px;
+    height: 2px;
+    background: var(--accent-gold);
+    transition: var(--transition);
+}
+
+header.menu-open .mobile-toggle .bar:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 6px);
+}
+
+header.menu-open .mobile-toggle .bar:nth-child(2) {
+    opacity: 0;
+}
+
+header.menu-open .mobile-toggle .bar:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -4px);
+}
+
 /* Hero Section */
 .hero {
     height: 100vh;
@@ -563,19 +596,140 @@ footer {
 }
 
 /* Responsive */
+@media (max-width: 992px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 768px) {
-    .hero h1 {
-        font-size: 2.5rem;
+    .container {
+        padding: 0 20px;
+    }
+
+    /* Header & Mobile Menu */
+    header {
+        padding: 16px 0;
+    }
+
+    .mobile-toggle {
+        display: flex;
+    }
+
+    .nav-container {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        height: 100vh;
+        background: rgba(5, 10, 20, 0.98);
+        flex-direction: column;
+        justify-content: center;
+        padding: 80px 40px;
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(20px);
+        z-index: 1000;
+        gap: 40px;
+    }
+
+    .nav-container.active {
+        right: 0;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
     }
 
     .nav-links {
-        display: none;
-        /* Simple hiding for mvp */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+    }
+
+    .lang-switcher {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .header-right {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Sections */
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero p {
+        font-size: 1.1rem;
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .tech-grid {
+        gap: 20px;
+    }
+
+    .tech-item {
+        width: 100%;
     }
 
     .founder-names {
         flex-direction: column;
-        gap: 32px;
+        gap: 40px;
+        align-items: center;
+    }
+
+    .founder-img {
+        width: 160px;
+        height: 160px;
+    }
+
+    /* Tools */
+    .tools-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .tools-sidebar {
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid var(--glass-border);
+        padding: 20px;
+        overflow-x: auto;
+    }
+
+    .tools-nav {
+        flex-direction: row;
+        gap: 12px;
+        min-width: max-content;
+    }
+
+    .tools-nav-item {
+        padding: 8px 16px;
+        white-space: nowrap;
+    }
+
+    .tools-content {
+        padding: 30px 20px;
+    }
+
+    .wizard-steps {
+        overflow-x: auto;
+        gap: 10px;
+        padding-bottom: 10px;
+    }
+
+    .wizard-step {
+        min-width: 120px;
+        font-size: 0.75rem;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 12px;
     }
 }
 
