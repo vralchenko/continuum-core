@@ -93,6 +93,10 @@ nav {
     /* Reset width for better spacing */
 }
 
+.nav-links a.active {
+    color: var(--accent-gold);
+}
+
 .header-right {
     display: flex;
     align-items: center;
@@ -465,6 +469,22 @@ nav {
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 1px;
+}
+
+.founder-img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--accent-gold);
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+}
+
+.founder-img:hover {
+    transform: scale(1.05);
+    border-color: #fff;
 }
 
 .product-tag {

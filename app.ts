@@ -104,7 +104,12 @@ async function includeHTML(): Promise<void> {
 }
 
 function highlightActiveNav(): void {
-    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+    const normalize = (p: string) => {
+        const part = p.split('/').pop() || '';
+        return part.replace('.html', '') || 'index';
+    };
+
+    const currentPath = normalize(window.location.pathname);
     const currentHash = window.location.hash;
 
     document.querySelectorAll('.nav-links a').forEach(el => {
@@ -112,20 +117,31 @@ function highlightActiveNav(): void {
         const href = link.getAttribute('href');
         if (!href) return;
 
-        const [linkPage, linkHash] = href.split('#');
-        const isIndex = currentPath === 'index.html';
-        const isSamePage = linkPage === currentPath || (linkPage === '' && isIndex) || (linkPage === 'index.html' && isIndex);
+        const [rawLinkPage, linkHash] = href.split('#');
+        // Handle explicit empty link page (href="#section") which implies current page
+        // But here we normalize empty to 'index'.
+        // If rawLinkPage is empty string, it means the href started with #.
+        let linkPage = normalize(rawLinkPage);
+
+        // If href was exactly "#...", normalize("") -> "index".
+        // But if we are on "products", matching "index" is wrong.
+        // It implies "current page".
+        if (rawLinkPage === '' && href.startsWith('#')) {
+            linkPage = currentPath;
+        }
 
         let isActive = false;
         if (linkHash) {
-            isActive = isSamePage && currentHash === '#' + linkHash;
+            isActive = (linkPage === currentPath) && (currentHash === '#' + linkHash);
         } else {
-            isActive = isSamePage && !currentHash;
+            isActive = linkPage === currentPath;
         }
 
         if (isActive) {
-            link.style.color = 'var(--accent-gold)';
+            link.classList.add('active');
+            link.style.color = '';
         } else if (!link.classList.contains('btn')) {
+            link.classList.remove('active');
             link.style.color = '';
         }
     });
