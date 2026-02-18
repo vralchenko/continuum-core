@@ -55,6 +55,9 @@ const Products: React.FC = () => {
                                 <div className="product-tag">{t('p2_tag') || 'Conscious Legacy'}</div>
                             </div>
                             <p>{t('p2_desc')}</p>
+                            <Link to="/tools?tool=leave-behind" className="btn" style={{ fontSize: '0.7rem', padding: '10px 20px' }}>
+                                {t('p2_btn') || 'Create Legacy'}
+                            </Link>
                         </div>
 
                         <div className="product-card">

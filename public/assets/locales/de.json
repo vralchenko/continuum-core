@@ -115,5 +115,14 @@
     "bio_viktor": "Viktor Ralchenko ist ein Senior Software Architekt und Mitbegründer von Continuum mit über 20 Jahren Erfahrung im Aufbau von groß angelegten Unternehmenssystemen. Als Spezialist für .NET, Cloud-Architekturen und KI-Integration leitet er die technische Vision der Plattform. In der Schweiz ansässig, widmet sich Viktor der Entwicklung robuster, leistungsstarker digitaler Lösungen, die die Lücke zwischen Technologie und menschlichen Bedürfnissen schließen.",
     "role_viktor": "Mitbegründer & CTO",
     "bio_olga": "Olga Sushchinskaya ist eine erfahrene Finanzexpertin und Mitbegründerin von Continuum mit umfangreicher Erfahrung als COO im globalen Banken- und Wertpapiergeschäft. Als EMBA-Absolventin der Stockholm School of Economics bringt sie hochrangige operative Expertise und strategisches Management in die Plattform ein. In der Schweiz ansässig, leitet Olga die operative Exzellenz und Geschäftsstrategie des Ökosystems.",
-    "role_olga": "Mitbegründerin & COO"
+    "role_olga": "Mitbegründerin & COO",
+    "back_home": "Zurück zur Startseite",
+    "p2_btn": "Vermächtnis erstellen",
+    "tag_legacy": "Digitales Erbe",
+    "leave_behind_desc": "Erstellen Sie persönliche Nachrichten, Videos und Fotomemories, die in Zukunft mit Ihren Liebsten geteilt werden können.",
+    "demo_func": "Demo-Funktionalität",
+    "legacy_type": "Was möchten Sie hinterlassen?",
+    "your_message": "Ihre Nachricht",
+    "add_to_legacy": "Zum Vermächtnis hinzufügen",
+    "your_legacy_vault": "Ihr Vermächtnis-Tresor"
 }

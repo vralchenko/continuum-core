@@ -8,6 +8,7 @@ import Executor from '../components/tools/Executor';
 import WillBuilder from '../components/tools/WillBuilder';
 import Templates from '../components/tools/Templates';
 import BereavementSupport from '../components/tools/BereavementSupport';
+import LeaveBehind from '../components/tools/LeaveBehind';
 
 const Tools: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -35,6 +36,7 @@ const Tools: React.FC = () => {
             case 'will-builder': return <WillBuilder />;
             case 'templates': return <Templates />;
             case 'bereavement-support': return <BereavementSupport />;
+            case 'leave-behind': return <LeaveBehind />;
             default: return <AssetOverview />;
         }
     };

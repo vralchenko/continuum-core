@@ -13,7 +13,7 @@ const Team: React.FC = () => {
                 <h2>{t('team_title') || 'Visionaries'}</h2>
                 <div className="founder-names">
                     <div className="founder">
-                        <img src={innaImg} alt="Dr. Inna Praxmarer" className="founder-img" />
+                        <img src={innaImg} alt="Dr. Inna Praxmarer" className="founder-img" style={{ objectPosition: 'center 26%' }} />
                         <div className="founder-header">
                             <h3>Dr. Inna Praxmarer</h3>
                             <a href="https://www.linkedin.com/in/dr-inna-praxmarer/" target="_blank" rel="noopener noreferrer" className="social-link">
@@ -24,7 +24,7 @@ const Team: React.FC = () => {
                         <p className="founder-bio">{t('bio_inna')}</p>
                     </div>
                     <div className="founder">
-                        <img src={olgaImg} alt="Olga Sushchinskaya" className="founder-img" />
+                        <img src={olgaImg} alt="Olga Sushchinskaya" className="founder-img" style={{ objectPosition: 'center 26%' }} />
                         <div className="founder-header">
                             <h3>Olga Sushchinskaya</h3>
                             <a href="https://www.linkedin.com/in/sushchinskaya-olga-7ba85a5a/" target="_blank" rel="noopener noreferrer" className="social-link">
@@ -35,7 +35,7 @@ const Team: React.FC = () => {
                         <p className="founder-bio">{t('bio_olga')}</p>
                     </div>
                     <div className="founder">
-                        <img src={viktorImg} alt="Viktor Ralchenko" className="founder-img" />
+                        <img src={viktorImg} alt="Viktor Ralchenko" className="founder-img" style={{ objectPosition: 'center 26%' }} />
                         <div className="founder-header">
                             <h3>Viktor Ralchenko</h3>
                             <a href="https://www.linkedin.com/in/victoralchenko/" target="_blank" rel="noopener noreferrer" className="social-link">
