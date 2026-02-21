@@ -7,7 +7,7 @@ import Footer from './components/Footer';
 
 import Home from './pages/Home';
 import Mission from './pages/Mission';
-import Products from './pages/Products';
+
 import Tools from './pages/Tools';
 import Team from './pages/Team';
 import Contact from './pages/Contact';
@@ -33,7 +33,7 @@ const Main = () => {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/mission" element={<Mission />} />
-                    <Route path="/products" element={<Products />} />
+
                     <Route path="/tools" element={<Tools />} />
                     <Route path="/team" element={<Team />} />
                     <Route path="/contact" element={<Contact />} />

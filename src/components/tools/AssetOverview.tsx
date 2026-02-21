@@ -11,15 +11,91 @@ const useInput = (key: string) => {
     return { value, onChange };
 };
 
+const useAssetList = (key: string) => {
+    const [items, setItems] = useState<any[]>(() => {
+        try {
+            const stored = localStorage.getItem(`continuum_list_${key}`);
+            return stored ? JSON.parse(stored) : [];
+        } catch (e) {
+            return [];
+        }
+    });
+
+    const addItem = (item: any) => {
+        const newItems = [...items, { ...item, id: Date.now().toString() }];
+        setItems(newItems);
+        localStorage.setItem(`continuum_list_${key}`, JSON.stringify(newItems));
+    };
+
+    const removeItem = (id: string) => {
+        const newItems = items.filter(i => i.id !== id);
+        setItems(newItems);
+        localStorage.setItem(`continuum_list_${key}`, JSON.stringify(newItems));
+    };
+
+    return { items, addItem, removeItem };
+};
+
+const DynamicAssetList = ({ title, itemKey }: { title: string, itemKey: string }) => {
+    const { items, addItem, removeItem } = useAssetList(itemKey);
+    const [isAdding, setIsAdding] = useState(false);
+    const [name, setName] = useState('');
+    const [value, setValue] = useState('');
+
+    const handleAdd = () => {
+        if (name) {
+            addItem({ name, value });
+            setName('');
+            setValue('');
+            setIsAdding(false);
+        }
+    };
+
+    return (
+        <div style={{ padding: '16px', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: items.length > 0 || isAdding ? '16px' : '0' }}>
+                <h4 style={{ margin: 0, fontSize: '1.1em', fontWeight: 500 }}>{title}</h4>
+                <button className="btn" style={{ padding: '6px 16px', fontSize: '0.85em', background: isAdding ? 'rgba(255,255,255,0.1)' : 'var(--accent-gold)', color: isAdding ? '#fff' : 'var(--bg-color)', border: 'none', borderRadius: '4px' }} onClick={() => setIsAdding(!isAdding)}>
+                    {isAdding ? 'Cancel' : '+ Add'}
+                </button>
+            </div>
+
+            {items.length > 0 && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: isAdding ? '16px' : '0' }}>
+                    {items.map(item => (
+                        <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px', background: 'rgba(255,255,255,0.05)', borderRadius: '6px' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                <span style={{ fontWeight: 500 }}>{item.name}</span>
+                                {item.value && <span style={{ fontSize: '0.9em', opacity: 0.7 }}>{item.value}</span>}
+                            </div>
+                            <button onClick={() => removeItem(item.id)} style={{ background: 'none', border: 'none', color: '#ff4444', fontSize: '1.2em', cursor: 'pointer', padding: '0 8px' }}>×</button>
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            {isAdding && (
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end', marginTop: '16px', padding: '12px', background: 'rgba(0,0,0,0.2)', borderRadius: '6px' }}>
+                    <div className="form-group" style={{ marginBottom: 0, flex: 2 }}>
+                        <label style={{ fontSize: '0.85em', opacity: 0.8, marginBottom: '4px', display: 'block' }}>Description</label>
+                        <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="e.g. UBS Savings" style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)', background: 'transparent', color: '#fff' }} />
+                    </div>
+                    <div className="form-group" style={{ marginBottom: 0, flex: 1 }}>
+                        <label style={{ fontSize: '0.85em', opacity: 0.8, marginBottom: '4px', display: 'block' }}>Amount / Value</label>
+                        <input type="text" value={value} onChange={e => setValue(e.target.value)} placeholder="e.g. 50,000 CHF" onKeyDown={e => e.key === 'Enter' && handleAdd()} style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)', background: 'transparent', color: '#fff' }} />
+                    </div>
+                    <button className="btn" style={{ background: 'var(--accent-gold)', color: 'var(--bg-color)', height: '42px', padding: '0 16px', border: 'none', borderRadius: '4px', fontWeight: 'bold' }} onClick={handleAdd}>Save</button>
+                </div>
+            )}
+        </div>
+    );
+};
+
 const AssetOverview: React.FC = () => {
     const { t } = useLanguage();
     const [step, setStep] = useState(1);
 
     const assetBrought = useInput('asset_brought');
-    const assetBank = useInput('asset_bank');
-    const assetSecurities = useInput('asset_securities');
-    const assetBvg = useInput('asset_bvg');
-    const assetInsurance = useInput('asset_insurance');
     const assetMortgages = useInput('asset_mortgages');
     const assetDebts = useInput('asset_debts');
 
@@ -71,11 +147,11 @@ const AssetOverview: React.FC = () => {
                 <div className="wizard-content-step active">
                     <div className="tool-section">
                         <h3>{t('subtitle_assets') || '1.3 Assets'}</h3>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                            <div className="form-group"><label>{t('label_bank') || 'Bank & Savings'}</label><input type="text" {...assetBank} /></div>
-                            <div className="form-group"><label>{t('label_securities') || 'Securities'}</label><input type="text" {...assetSecurities} /></div>
-                            <div className="form-group"><label>{t('label_bvg') || 'Pension Fund'}</label><input type="text" {...assetBvg} /></div>
-                            <div className="form-group"><label>{t('label_insurance') || 'Insurance'}</label><input type="text" {...assetInsurance} /></div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                            <DynamicAssetList title={t('label_bank') || 'Bank & Savings'} itemKey="bank" />
+                            <DynamicAssetList title={t('label_securities') || 'Securities'} itemKey="securities" />
+                            <DynamicAssetList title={t('label_bvg') || 'Pension Fund'} itemKey="bvg" />
+                            <DynamicAssetList title={t('label_insurance') || 'Insurance'} itemKey="insurance" />
                         </div>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>

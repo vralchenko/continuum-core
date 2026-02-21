@@ -31,7 +31,6 @@ const Header: React.FC = () => {
 
                         <div className="nav-links">
                             <NavLink to="/mission" onClick={closeMenu} className={({ isActive }) => isActive ? 'active' : ''}>{t('nav_mission') || 'Mission'}</NavLink>
-                            <NavLink to="/products" onClick={closeMenu} className={({ isActive }) => isActive ? 'active' : ''}>{t('nav_products') || 'Products'}</NavLink>
                             <NavLink to="/tools" onClick={closeMenu} className={({ isActive }) => isActive ? 'active' : ''}>{t('nav_tools') || 'Tools'}</NavLink>
                             <NavLink to="/team" onClick={closeMenu} className={({ isActive }) => isActive ? 'active' : ''}>{t('nav_team') || 'Team'}</NavLink>
                         </div>
