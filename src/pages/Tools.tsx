@@ -9,6 +9,8 @@ import WillBuilder from '../components/tools/WillBuilder';
 import Templates from '../components/tools/Templates';
 import BereavementSupport from '../components/tools/BereavementSupport';
 import LeaveBehind from '../components/tools/LeaveBehind';
+import Reminders from '../components/tools/Reminders';
+import AIAvatar from '../components/tools/AIAvatar';
 
 const Tools: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -37,6 +39,8 @@ const Tools: React.FC = () => {
             case 'templates': return <Templates />;
             case 'bereavement-support': return <BereavementSupport />;
             case 'leave-behind': return <LeaveBehind />;
+            case 'reminders': return <Reminders />;
+            case 'ai-avatar': return <AIAvatar />;
             default: return <AssetOverview />;
         }
     };

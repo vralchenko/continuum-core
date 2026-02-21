@@ -32,10 +32,13 @@ const Header: React.FC = () => {
                         <div className="nav-links">
                             <NavLink to="/mission" onClick={closeMenu} className={({ isActive }) => isActive ? 'active' : ''}>{t('nav_mission') || 'Mission'}</NavLink>
                             <NavLink to="/tools" onClick={closeMenu} className={({ isActive }) => isActive ? 'active' : ''}>{t('nav_tools') || 'Tools'}</NavLink>
+                            <NavLink to="/documents" onClick={closeMenu} className={({ isActive }) => isActive ? 'active' : ''}>Documents</NavLink>
                             <NavLink to="/team" onClick={closeMenu} className={({ isActive }) => isActive ? 'active' : ''}>{t('nav_team') || 'Team'}</NavLink>
                         </div>
 
                         <div className="header-right">
+                            <Link to="/profile" onClick={closeMenu} style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginRight: '4px' }}>👤</Link>
+                            <Link to="/login" onClick={closeMenu} style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginRight: '4px' }}>{t('nav_login') || 'Sign In'}</Link>
                             <Link to="/contact" onClick={closeMenu} className="btn header-btn">{t('nav_contact') || 'Get in Touch'}</Link>
                         </div>
                     </div>

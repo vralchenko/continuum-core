@@ -1,0 +1,422 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
+import usePersistedState from '../hooks/usePersistedState';
+
+interface ProfileData {
+    name: string;
+    email: string;
+    phone: string;
+    dob: string;
+    nationality: string;
+    city: string;
+    bio: string;
+    plan: 'free' | 'premium' | 'family';
+}
+
+const COMPLETION_SECTIONS = [
+    { key: 'asset-overview', label: 'Asset Overview', tool: 'asset-overview' },
+    { key: 'legal-docs', label: 'Legal Framework', tool: 'legal-docs' },
+    { key: 'death-checklist', label: 'After Death Guide', tool: 'death-checklist' },
+    { key: 'executor', label: 'ToDo List', tool: 'executor' },
+    { key: 'will-builder', label: 'Will Structure', tool: 'will-builder' },
+    { key: 'templates', label: 'Document Templates', tool: 'templates' },
+    { key: 'leave-behind', label: 'Digital Legacy Vault', tool: 'leave-behind' },
+    { key: 'bereavement-support', label: 'Bereavement Path', tool: 'bereavement-support' },
+];
+
+const PLAN_STYLES = {
+    free: { label: 'Free Plan', color: 'rgba(255,255,255,0.5)', bg: 'rgba(255,255,255,0.05)', border: 'rgba(255,255,255,0.1)' },
+    premium: { label: 'Premium', color: '#fbbf24', bg: 'rgba(251,191,36,0.1)', border: 'rgba(251,191,36,0.3)' },
+    family: { label: 'Family Plan', color: '#a78bfa', bg: 'rgba(167,139,250,0.1)', border: 'rgba(167,139,250,0.3)' },
+};
+
+const Profile: React.FC = () => {
+    const { language, setLanguage, t } = useLanguage();
+    const { theme, toggleTheme } = useTheme();
+
+    // Prepare initial profile data from mock login if available
+    const getInitialProfile = (): ProfileData => {
+        const mockUser = localStorage.getItem('continuum_user');
+        const defaultData: ProfileData = {
+            name: '', email: '', phone: '', dob: '', nationality: '', city: '', bio: '', plan: 'free'
+        };
+        if (mockUser) {
+            try {
+                const parsed = JSON.parse(mockUser);
+                return { ...defaultData, name: parsed.name, email: parsed.email };
+            } catch (e) {
+                return defaultData;
+            }
+        }
+        return defaultData;
+    };
+
+    const [profile, setProfile] = usePersistedState<ProfileData>('user_profile', getInitialProfile());
+
+    const [editing, setEditing] = useState(false);
+    const [draft, setDraft] = useState<ProfileData>(profile);
+    const [saved, setSaved] = useState(false);
+    const [activeTab, setActiveTab] = useState<'overview' | 'settings' | 'plan'>('overview');
+
+    // Compute overall completion score
+    const legacyItems = JSON.parse(localStorage.getItem('continuum_legacy_vault_v2') || '[]');
+    const todoTasks = JSON.parse(localStorage.getItem('continuum_todo_tasks') || '[]');
+    const legalDocs = JSON.parse(localStorage.getItem('continuum_legal_docs_v2') || '{}');
+    const completedLegal = Object.values(legalDocs).filter((d: any) => d.status === 'completed' || d.status === 'filed').length;
+
+    const scoreItems = [
+        { label: 'Profile filled', done: !!(profile.name && profile.email) },
+        { label: 'Assets documented', done: !!(localStorage.getItem('continuum_list_bank') || localStorage.getItem('continuum_asset_brought')) },
+        { label: 'Legal docs tracked', done: completedLegal > 0 },
+        { label: 'Digital legacy started', done: legacyItems.length > 0 },
+        { label: 'ToDo tasks added', done: todoTasks.length > 0 },
+        { label: 'Crypto wallets documented', done: !!(localStorage.getItem('continuum_list_crypto_wallets')) },
+        { label: 'Funeral wishes recorded', done: !!(localStorage.getItem('continuum_funeral_type')) },
+    ];
+    const score = Math.round((scoreItems.filter(s => s.done).length / scoreItems.length) * 100);
+
+    const saveProfile = () => {
+        setProfile(draft);
+        setEditing(false);
+        setSaved(true);
+        setTimeout(() => setSaved(false), 2500);
+    };
+
+    const initials = profile.name
+        ? profile.name.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase()
+        : '?';
+
+    const planStyle = PLAN_STYLES[profile.plan];
+
+    return (
+        <div style={{ height: '100vh', padding: '20px 0', overflow: 'hidden' }}>
+            <div className="container" style={{ transform: 'scale(0.85)', transformOrigin: 'top center', height: '100%', display: 'flex', flexDirection: 'column' }}>
+                {/* Header bar */}
+                <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap' }}>
+                    <Link to="/" style={{ fontSize: '0.8rem', color: 'var(--accent-gold)', opacity: 0.7, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        ← Home
+                    </Link>
+                    <span style={{ opacity: 0.2 }}>/</span>
+                    <span style={{ fontSize: '0.8rem', opacity: 0.4 }}>Your Profile</span>
+                    {saved && (
+                        <span style={{ marginLeft: 'auto', color: '#10b981', fontSize: '0.82rem', animation: 'fadeIn 0.3s ease' }}>
+                            ✓ Saved successfully
+                        </span>
+                    )}
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '20px', flex: 1, overflow: 'hidden' }}>
+
+                    {/* ─── LEFT COLUMN ──────────────────────────────────── */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+
+                        {/* Avatar card */}
+                        <div style={{
+                            padding: '20px', borderRadius: '20px', textAlign: 'center',
+                            background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)'
+                        }}>
+                            <div style={{
+                                width: '80px', height: '80px', borderRadius: '50%', margin: '0 auto 16px',
+                                background: 'linear-gradient(135deg, var(--accent-gold), #c8941a)',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                fontSize: '1.8rem', fontFamily: 'var(--font-heading)', fontWeight: 700,
+                                color: '#000', boxShadow: '0 8px 24px rgba(255,215,0,0.2)'
+                            }}>
+                                {initials}
+                            </div>
+                            <h2 style={{ fontSize: '1.2rem', marginBottom: '4px' }}>{profile.name || 'Your Name'}</h2>
+                            <p style={{ fontSize: '0.82rem', opacity: 0.45, marginBottom: '14px' }}>{profile.email || 'your@email.com'}</p>
+                            <span style={{
+                                display: 'inline-block', fontSize: '0.72rem', padding: '4px 12px', borderRadius: '12px',
+                                background: planStyle.bg, color: planStyle.color, border: `1px solid ${planStyle.border}`
+                            }}>
+                                {planStyle.label}
+                            </span>
+                        </div>
+
+                        {/* Readiness score */}
+                        <div style={{
+                            padding: '22px', borderRadius: '20px',
+                            background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)'
+                        }}>
+                            <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.5, marginBottom: '12px' }}>Legacy Readiness</div>
+                            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '12px' }}>
+                                <span style={{ fontSize: '2.5rem', fontWeight: 700, color: score >= 70 ? '#10b981' : score >= 40 ? 'var(--accent-gold)' : '#ef4444' }}>
+                                    {score}%
+                                </span>
+                                <span style={{ fontSize: '0.8rem', opacity: 0.5 }}>complete</span>
+                            </div>
+                            <div style={{ height: '8px', borderRadius: '4px', background: 'rgba(255,255,255,0.08)', marginBottom: '16px' }}>
+                                <div style={{
+                                    height: '100%', borderRadius: '4px', transition: 'width 0.5s ease',
+                                    width: `${score}%`,
+                                    background: score >= 70 ? 'linear-gradient(90deg, #10b981, #6fcf97)' :
+                                        score >= 40 ? 'linear-gradient(90deg, var(--accent-gold), #f0c040)' :
+                                            'linear-gradient(90deg, #ef4444, #f87171)'
+                                }} />
+                            </div>
+                            {scoreItems.map((item, i) => (
+                                <div key={i} style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '7px', fontSize: '0.8rem' }}>
+                                    <span style={{ color: item.done ? '#10b981' : 'rgba(255,255,255,0.2)', flexShrink: 0 }}>{item.done ? '✓' : '○'}</span>
+                                    <span style={{ opacity: item.done ? 0.8 : 0.4, textDecoration: item.done ? 'none' : 'none' }}>{item.label}</span>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Quick nav */}
+                        <div style={{ padding: '20px', borderRadius: '20px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                            <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.5, marginBottom: '12px' }}>Quick Links</div>
+                            {[
+                                { to: '/tools', label: '🛠 Tools Dashboard' },
+                                { to: '/documents', label: '📄 My Documents' },
+                                { to: '/tools?tool=templates', label: '📋 Request Templates' },
+                                { to: '/tools?tool=leave-behind', label: '✦ Digital Legacy' },
+                            ].map(link => (
+                                <Link key={link.to} to={link.to} style={{
+                                    display: 'block', padding: '8px 10px', borderRadius: '8px', marginBottom: '4px',
+                                    fontSize: '0.85rem', opacity: 0.65, transition: 'all 0.2s',
+                                    color: 'var(--text-color)'
+                                }}
+                                    onMouseEnter={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
+                                    onMouseLeave={e => { e.currentTarget.style.opacity = '0.65'; e.currentTarget.style.background = 'transparent'; }}
+                                >
+                                    {link.label}
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* ─── RIGHT COLUMN ─────────────────────────────────── */}
+                    <div>
+                        {/* Tabs */}
+                        <div style={{ display: 'flex', gap: '4px', marginBottom: '24px', background: 'rgba(255,255,255,0.04)', borderRadius: '14px', padding: '4px' }}>
+                            {[
+                                { key: 'overview', label: '👤 Personal Info' },
+                                { key: 'settings', label: '⚙️ Settings' },
+                                { key: 'plan', label: '✦ Plan & Subscription' },
+                            ].map(tab => (
+                                <button
+                                    key={tab.key}
+                                    onClick={() => setActiveTab(tab.key as any)}
+                                    style={{
+                                        flex: 1, padding: '11px', borderRadius: '10px', border: 'none', cursor: 'pointer',
+                                        background: activeTab === tab.key ? 'rgba(255,215,0,0.12)' : 'transparent',
+                                        color: activeTab === tab.key ? 'var(--accent-gold)' : 'var(--text-muted)',
+                                        fontWeight: activeTab === tab.key ? 700 : 400, fontSize: '0.88rem', transition: 'all 0.2s'
+                                    }}
+                                >{tab.label}</button>
+                            ))}
+                        </div>
+
+                        {/* ─── PERSONAL INFO TAB ─── */}
+                        {activeTab === 'overview' && (
+                            <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', padding: '28px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                                    <h3 style={{ fontSize: '1.1rem', margin: 0 }}>Personal Information</h3>
+                                    {!editing ? (
+                                        <button onClick={() => { setDraft(profile); setEditing(true); }} style={{ padding: '8px 18px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'transparent', color: 'var(--text-color)', cursor: 'pointer', fontSize: '0.82rem' }}>
+                                            ✏️ Edit
+                                        </button>
+                                    ) : (
+                                        <div style={{ display: 'flex', gap: '8px' }}>
+                                            <button onClick={() => setEditing(false)} style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'transparent', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '0.82rem' }}>Cancel</button>
+                                            <button onClick={saveProfile} style={{ padding: '8px 18px', borderRadius: '8px', border: 'none', background: 'var(--accent-gold)', color: '#000', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 700 }}>Save Changes</button>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                    {[
+                                        { key: 'name', label: 'Full Name', placeholder: 'John Doe', type: 'text' },
+                                        { key: 'email', label: 'Email Address', placeholder: 'your@email.com', type: 'email' },
+                                        { key: 'phone', label: 'Phone Number', placeholder: '+43 660 000 0000', type: 'tel' },
+                                        { key: 'dob', label: 'Date of Birth', placeholder: '', type: 'date' },
+                                        { key: 'nationality', label: 'Nationality', placeholder: 'e.g. Austrian', type: 'text' },
+                                        { key: 'city', label: 'City / Country', placeholder: 'Vienna, Austria', type: 'text' },
+                                    ].map(field => (
+                                        <div key={field.key}>
+                                            <label style={{ fontSize: '0.78rem', opacity: 0.5, display: 'block', marginBottom: '6px' }}>{field.label}</label>
+                                            {editing ? (
+                                                <input
+                                                    type={field.type}
+                                                    value={(draft as any)[field.key]}
+                                                    onChange={e => setDraft({ ...draft, [field.key]: e.target.value })}
+                                                    placeholder={field.placeholder}
+                                                    style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255,215,0,0.2)', background: 'rgba(255,255,255,0.04)', color: '#fff', boxSizing: 'border-box', fontSize: '0.88rem' }}
+                                                />
+                                            ) : (
+                                                <div style={{ padding: '10px 0', fontSize: '0.9rem', opacity: (profile as any)[field.key] ? 0.85 : 0.3, fontStyle: (profile as any)[field.key] ? 'normal' : 'italic' }}>
+                                                    {(profile as any)[field.key] || 'Not set'}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Bio */}
+                                <div style={{ marginTop: '16px' }}>
+                                    <label style={{ fontSize: '0.78rem', opacity: 0.5, display: 'block', marginBottom: '6px' }}>Personal Note / Bio</label>
+                                    {editing ? (
+                                        <textarea
+                                            value={draft.bio}
+                                            onChange={e => setDraft({ ...draft, bio: e.target.value })}
+                                            rows={3}
+                                            placeholder="A short personal note or message to your heirs..."
+                                            style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255,215,0,0.2)', background: 'rgba(255,255,255,0.04)', color: '#fff', boxSizing: 'border-box', resize: 'vertical', fontSize: '0.88rem' }}
+                                        />
+                                    ) : (
+                                        <div style={{ padding: '10px 0', fontSize: '0.9rem', opacity: profile.bio ? 0.85 : 0.3, fontStyle: profile.bio ? 'normal' : 'italic' }}>
+                                            {profile.bio || 'Not set'}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* ─── SETTINGS TAB ─── */}
+                        {activeTab === 'settings' && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                {/* Language */}
+                                <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', padding: '24px' }}>
+                                    <h4 style={{ marginBottom: '16px', fontSize: '1rem' }}>Language</h4>
+                                    <div style={{ display: 'flex', gap: '8px' }}>
+                                        {(['en', 'de', 'ru', 'ua'] as const).map(lang => (
+                                            <button
+                                                key={lang}
+                                                onClick={() => setLanguage(lang)}
+                                                style={{
+                                                    padding: '10px 20px', borderRadius: '10px', border: `1px solid ${language === lang ? 'var(--accent-gold)' : 'rgba(255,255,255,0.12)'}`,
+                                                    background: language === lang ? 'rgba(255,215,0,0.1)' : 'transparent',
+                                                    color: language === lang ? 'var(--accent-gold)' : 'var(--text-muted)',
+                                                    cursor: 'pointer', fontWeight: language === lang ? 700 : 400, fontSize: '0.9rem', transition: 'all 0.2s',
+                                                    textTransform: 'uppercase'
+                                                }}
+                                            >{lang}</button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Theme */}
+                                <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', padding: '24px' }}>
+                                    <h4 style={{ marginBottom: '16px', fontSize: '1rem' }}>Theme</h4>
+                                    <div style={{ display: 'flex', gap: '12px' }}>
+                                        {[{ key: 'dark', label: '🌙 Dark Mode' }, { key: 'light', label: '☀️ Light Mode' }].map(t => (
+                                            <button
+                                                key={t.key}
+                                                onClick={() => { if ((t.key === 'light') !== (theme === 'light')) toggleTheme(); }}
+                                                style={{
+                                                    flex: 1, padding: '14px', borderRadius: '12px',
+                                                    border: `1px solid ${theme === t.key ? 'rgba(255,215,0,0.3)' : 'rgba(255,255,255,0.08)'}`,
+                                                    background: theme === t.key ? 'rgba(255,215,0,0.06)' : 'transparent',
+                                                    color: theme === t.key ? 'var(--accent-gold)' : 'var(--text-muted)',
+                                                    cursor: 'pointer', fontSize: '0.9rem', fontWeight: theme === t.key ? 700 : 400, transition: 'all 0.2s'
+                                                }}
+                                            >{t.label}</button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Notifications */}
+                                <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', padding: '24px' }}>
+                                    <h4 style={{ marginBottom: '6px', fontSize: '1rem' }}>Email Reminders</h4>
+                                    <p style={{ opacity: 0.5, fontSize: '0.82rem', marginBottom: '16px' }}>Get reminded to keep your estate documents up to date.</p>
+                                    <Link to="/tools?tool=reminders" style={{
+                                        display: 'inline-block', padding: '10px 20px', borderRadius: '10px',
+                                        border: '1px solid var(--accent-gold)', color: 'var(--accent-gold)',
+                                        fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s'
+                                    }}>
+                                        📧 Manage Reminders →
+                                    </Link>
+                                </div>
+
+                                {/* Security */}
+                                <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', padding: '24px' }}>
+                                    <h4 style={{ marginBottom: '16px', fontSize: '1rem' }}>Security</h4>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                        {[
+                                            { label: 'Change Password', icon: '🔑' },
+                                            { label: 'Enable Two-Factor Auth', icon: '🛡️' },
+                                            { label: 'Connected Accounts (OAuth)', icon: '🔗' },
+                                        ].map(item => (
+                                            <button key={item.label} style={{
+                                                display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 16px',
+                                                borderRadius: '10px', border: '1px solid rgba(255,255,255,0.08)',
+                                                background: 'transparent', color: 'rgba(255,255,255,0.65)', cursor: 'pointer',
+                                                textAlign: 'left', fontSize: '0.85rem', transition: 'all 0.2s'
+                                            }}
+                                                onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(255,215,0,0.2)'}
+                                                onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'}
+                                            >
+                                                <span>{item.icon}</span> {item.label}
+                                                <span style={{ marginLeft: 'auto', opacity: 0.3 }}>→</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* ─── PLAN TAB ─── */}
+                        {activeTab === 'plan' && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', padding: '28px' }}>
+                                    <h3 style={{ marginBottom: '6px', fontSize: '1.1rem' }}>Current Plan</h3>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+                                        <span style={{
+                                            display: 'inline-block', fontSize: '0.82rem', padding: '6px 16px', borderRadius: '20px',
+                                            background: planStyle.bg, color: planStyle.color, border: `1px solid ${planStyle.border}`, fontWeight: 700
+                                        }}>
+                                            {planStyle.label}
+                                        </span>
+                                        {profile.plan === 'free' && <span style={{ fontSize: '0.8rem', opacity: 0.5 }}>Upgrade to unlock all features</span>}
+                                    </div>
+
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
+                                        {[
+                                            { plan: 'free' as const, label: 'Free', price: '€0', features: ['Asset Overview', 'Basic Checklist', 'Legal Framework (view)', '1 Digital Legacy item'] },
+                                            { plan: 'premium' as const, label: 'Premium', price: '€9.90/mo', features: ['Everything in Free', 'Unlimited Legacy items', 'AI Chat Assistant', 'Email Reminders', 'PDF Export', 'Will Builder'] },
+                                            { plan: 'family' as const, label: 'Family', price: '€17.90/mo', features: ['Everything in Premium', 'Up to 5 profiles', 'Shared Legacy Vault', 'Priority support', 'AI Avatar (beta)'] },
+                                        ].map(tier => {
+                                            const ts = PLAN_STYLES[tier.plan];
+                                            return (
+                                                <div key={tier.plan} style={{
+                                                    padding: '20px', borderRadius: '14px',
+                                                    border: `1px solid ${profile.plan === tier.plan ? ts.border : 'rgba(255,255,255,0.08)'}`,
+                                                    background: profile.plan === tier.plan ? ts.bg : 'rgba(255,255,255,0.02)',
+                                                    display: 'flex', flexDirection: 'column'
+                                                }}>
+                                                    <div style={{ fontWeight: 700, marginBottom: '4px', color: ts.color }}>{tier.label}</div>
+                                                    <div style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '14px' }}>{tier.price}</div>
+                                                    {tier.features.map(f => (
+                                                        <div key={f} style={{ fontSize: '0.78rem', opacity: 0.65, marginBottom: '5px', display: 'flex', gap: '6px' }}>
+                                                            <span style={{ color: ts.color }}>✓</span> {f}
+                                                        </div>
+                                                    ))}
+                                                    <button
+                                                        style={{
+                                                            marginTop: 'auto', paddingTop: '14px', padding: '8px', borderRadius: '8px', border: `1px solid ${ts.border}`,
+                                                            background: profile.plan === tier.plan ? ts.bg : 'transparent',
+                                                            color: ts.color, cursor: 'pointer', fontSize: '0.78rem',
+                                                            fontWeight: profile.plan === tier.plan ? 700 : 400, transition: 'all 0.2s'
+                                                        }}
+                                                        onClick={() => setProfile({ ...profile, plan: tier.plan })}
+                                                    >
+                                                        {profile.plan === tier.plan ? 'Current Plan' : `Select ${tier.label}`}
+                                                    </button>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Profile;

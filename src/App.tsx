@@ -7,10 +7,12 @@ import Footer from './components/Footer';
 
 import Home from './pages/Home';
 import Mission from './pages/Mission';
-
 import Tools from './pages/Tools';
 import Team from './pages/Team';
 import Contact from './pages/Contact';
+import Login from './pages/Login';
+import Documents from './pages/Documents';
+import Profile from './pages/Profile';
 
 const App: React.FC = () => {
     return (
@@ -26,6 +28,11 @@ const App: React.FC = () => {
 
 // Separate component to use hooks
 const Main = () => {
+    React.useEffect(() => {
+        document.body.classList.add('demo-mode');
+        return () => document.body.classList.remove('demo-mode');
+    }, []);
+
     return (
         <div className="flex flex-col min-h-screen">
             <Header />
@@ -33,10 +40,12 @@ const Main = () => {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/mission" element={<Mission />} />
-
                     <Route path="/tools" element={<Tools />} />
                     <Route path="/team" element={<Team />} />
                     <Route path="/contact" element={<Contact />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/documents" element={<Documents />} />
+                    <Route path="/profile" element={<Profile />} />
                 </Routes>
             </main>
             <Footer />

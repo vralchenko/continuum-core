@@ -10,6 +10,16 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ activeTool, onSelectTool }) => {
     const { t } = useLanguage();
 
+    const NavItem = ({ tool, label, number }: { tool: string; label: string; number?: string }) => (
+        <div
+            className={`tools-nav-item ${activeTool === tool ? 'active' : ''}`}
+            onClick={() => onSelectTool(tool)}
+        >
+            {number && <span style={{ opacity: 0.45, fontSize: '0.8em', marginRight: '6px' }}>{number}.</span>}
+            {label}
+        </div>
+    );
+
     return (
         <aside className="tools-sidebar">
             <div className="sidebar-header">
@@ -20,40 +30,57 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTool, onSelectTool }) => {
             </div>
 
             <div className="tools-nav">
+                {/* Be Ready */}
                 <div className="nav-group">
                     <div className="group-title">{t('p1_title') || 'Be Ready'}</div>
-                    <div className={`tools-nav-item ${activeTool === 'asset-overview' ? 'active' : ''}`} onClick={() => onSelectTool('asset-overview')}>
-                        01. {t('tag_assets') || 'Asset Overview'}
-                    </div>
-                    <div className={`tools-nav-item ${activeTool === 'legal-docs' ? 'active' : ''}`} onClick={() => onSelectTool('legal-docs')}>
-                        02. {t('tag_legal') || 'Legal Framework'}
-                    </div>
-                    <div className={`tools-nav-item ${activeTool === 'death-checklist' ? 'active' : ''}`} onClick={() => onSelectTool('death-checklist')}>
-                        03. {t('tag_checklist') || 'Step-by-Step Guide'}
-                    </div>
-                    <div className={`tools-nav-item ${activeTool === 'executor' ? 'active' : ''}`} onClick={() => onSelectTool('executor')}>
-                        04. {t('tag_executor') || 'Executor Tasks'}
-                    </div>
-                    <div className={`tools-nav-item ${activeTool === 'will-builder' ? 'active' : ''}`} onClick={() => onSelectTool('will-builder')}>
-                        05. {t('tag_will') || 'Will Structure'}
-                    </div>
-                    <div className={`tools-nav-item ${activeTool === 'templates' ? 'active' : ''}`} onClick={() => onSelectTool('templates')}>
-                        06. {t('tag_templates') || 'Request Templates'}
-                    </div>
+                    <NavItem tool="asset-overview" label={t('tag_assets') || 'Asset Overview'} number="01" />
                 </div>
 
+                {/* Family */}
+                <div className="nav-group">
+                    <div className="group-title">02 Family</div>
+                    <NavItem tool="will-builder" label={t('tag_will') || 'Will Structure'} number="02" />
+                </div>
+
+                {/* Legal & After Death */}
+                <div className="nav-group">
+                    <div className="group-title">03 Legal & Formalities</div>
+                    <NavItem tool="legal-docs" label={t('tag_legal') || 'Legal Framework'} number="03" />
+                    <NavItem tool="death-checklist" label={t('tag_checklist') || 'After Death Guide'} number="04" />
+                    <NavItem tool="executor" label="ToDo List" number="05" />
+                    <NavItem tool="templates" label={t('tag_templates') || 'Request Templates'} number="06" />
+                </div>
+
+                {/* Leave Behind */}
                 <div className="nav-group">
                     <div className="group-title">{t('p2_title') || 'Leave Behind'}</div>
-                    <div className={`tools-nav-item ${activeTool === 'leave-behind' ? 'active' : ''}`} onClick={() => onSelectTool('leave-behind')}>
-                        {t('tag_legacy') || 'Digital Legacy'}
+                    <NavItem tool="leave-behind" label={t('tag_legacy') || 'Digital Legacy'} />
+                    <NavItem tool="ai-avatar" label="🤖 AI Avatar" />
+                </div>
+
+                {/* Be Honored */}
+                <div className="nav-group">
+                    <div className="group-title">{t('p3_title') || 'Be Honored'}</div>
+                    <div
+                        className={`tools-nav-item bereavement-nav ${activeTool === 'bereavement-support' ? 'active' : ''}`}
+                        onClick={() => onSelectTool('bereavement-support')}
+                    >
+                        {t('nav_bereavement') || 'Bereavement Path'}
                     </div>
                 </div>
 
+                {/* Utilities */}
                 <div className="nav-group">
-                    <div className="group-title">{t('p3_title') || 'Be Honored'}</div>
-                    <div className={`tools-nav-item bereavement-nav ${activeTool === 'bereavement-support' ? 'active' : ''}`} onClick={() => onSelectTool('bereavement-support')}>
-                        {t('nav_bereavement') || 'Bereavement Support'}
-                    </div>
+                    <div className="group-title">Utilities</div>
+                    <NavItem tool="reminders" label="📧 Email Reminders" />
+                    <Link to="/profile" style={{ display: 'block', padding: '11px 16px', borderRadius: '8px', fontSize: '0.88rem', color: 'var(--text-muted)', transition: 'all 0.2s', marginBottom: '2px' }}
+                        onMouseEnter={e => { e.currentTarget.style.color = 'var(--accent-gold)'; e.currentTarget.style.background = 'rgba(255,215,0,0.05)'; }}
+                        onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.background = 'transparent'; }}
+                    >👤 My Profile</Link>
+                    <Link to="/documents" style={{ display: 'block', padding: '11px 16px', borderRadius: '8px', fontSize: '0.88rem', color: 'var(--text-muted)', transition: 'all 0.2s', marginBottom: '2px' }}
+                        onMouseEnter={e => { e.currentTarget.style.color = 'var(--accent-gold)'; e.currentTarget.style.background = 'rgba(255,215,0,0.05)'; }}
+                        onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.background = 'transparent'; }}
+                    >📄 My Documents</Link>
                 </div>
             </div>
 
@@ -96,7 +123,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTool, onSelectTool }) => {
                     width: 100%;
                 }
             `}</style>
-        </aside>
+        </aside >
     );
 };
 
